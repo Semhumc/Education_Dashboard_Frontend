@@ -17,6 +17,14 @@ import { AdminDashboard } from './components/pages/admin/AdminDashboard';
 import { TeacherDashboard } from './components/pages/teacher/TeacherDashboard';
 import { StudentDashboard } from './components/pages/student/StudentDashboard';
 
+// Admin Pages
+import { ClassManagementPage } from './components/pages/admin/ClassManagementPage';
+import { UserManagementPage } from './components/pages/admin/UserManagementPage';
+
+// Teacher Pages
+import { TeacherClassesPage } from './components/pages/teacher/TeacherClassesPage';
+import { TeacherHomeworkPage } from './components/pages/teacher/TeacherHomeworkPage';
+
 // Protected Route Component
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 
@@ -64,14 +72,22 @@ const AppRoutes: React.FC = () => {
           {/* Admin Routes */}
           <Route path="/admin/*" element={
             <ProtectedRoute requiredRole="admin">
-              {/* Admin specific routes here */}
+              <Routes>
+                <Route path="classes" element={<ClassManagementPage />} />
+                <Route path="users" element={<UserManagementPage />} />
+                <Route path="*" element={<Navigate to="classes" replace />} />
+              </Routes>
             </ProtectedRoute>
           } />
           
           {/* Teacher Routes */}
           <Route path="/teacher/*" element={
             <ProtectedRoute requiredRole="teacher">
-              {/* Teacher specific routes here */}
+              <Routes>
+                <Route path="classes" element={<TeacherClassesPage />} />
+                <Route path="homework" element={<TeacherHomeworkPage />} />
+                <Route path="*" element={<Navigate to="classes" replace />} />
+              </Routes>
             </ProtectedRoute>
           } />
           

@@ -73,6 +73,7 @@ export const Modal: React.FC<ModalProps> = ({
                         icon={X}
                         onClick={onClose}
                         className="text-gray-400 hover:text-gray-600"
+                        children={null}
                       />
                     )}
                   </div>

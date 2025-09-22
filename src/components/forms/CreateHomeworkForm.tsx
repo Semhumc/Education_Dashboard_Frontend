@@ -10,6 +10,7 @@ import { homeworkService } from '../../services/homeworkService';
 import { classService } from '../../services/classService';
 import { lessonService } from '../../services/lessonService';
 import { useAuthStore } from '../../store/authStore';
+import type { Homework } from '../../types/auth.types';
 
 const createHomeworkSchema = z.object({
   title: z.string().min(1, 'Title is required').max(255, 'Title is too long'),
@@ -24,9 +25,14 @@ type CreateHomeworkFormData = z.infer<typeof createHomeworkSchema>;
 interface CreateHomeworkFormProps {
   onSuccess?: () => void;
   onCancel?: () => void;
+  initialData?: Homework; // Added for editing
 }
 
-export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSuccess, onCancel }) => {
+export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({
+  onSuccess,
+  onCancel,
+  initialData,
+}) => {
   const { user } = useAuthStore();
   const queryClient = useQueryClient();
 
@@ -48,24 +54,39 @@ export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSucces
     reset,
   } = useForm<CreateHomeworkFormData>({
     resolver: zodResolver(createHomeworkSchema),
+    defaultValues: initialData ? {
+      ...initialData,
+      due_date: new Date(initialData.due_date).toISOString().slice(0, 16), // Format for datetime-local
+    } : undefined,
   });
 
-  const createHomeworkMutation = useMutation({
-    mutationFn: homeworkService.createHomework,
+  const homeworkMutation = useMutation({
+    mutationFn: (data: CreateHomeworkFormData) => {
+      const homeworkPayload = {
+        ...data,
+        teacher_id: user?.id || '',
+        due_date: new Date(data.due_date).toISOString(),
+        content: data.content || '',
+      };
+      if (initialData?.id) {
+        return homeworkService.updateHomework(initialData.id, homeworkPayload);
+      } else {
+        return homeworkService.createHomework(homeworkPayload);
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['homeworks'] });
-      reset();
+      queryClient.invalidateQueries({ queryKey: ['teacher-homeworks'] }); // Invalidate teacher-specific homeworks
+      reset(initialData ? {
+        ...initialData,
+        due_date: new Date(initialData.due_date).toISOString().slice(0, 16),
+      } : undefined);
       onSuccess?.();
     },
   });
 
   const onSubmit = async (data: CreateHomeworkFormData) => {
-    const homeworkData = {
-      ...data,
-      teacher_id: user?.id || '',
-      due_date: new Date(data.due_date).toISOString(),
-    };
-    await createHomeworkMutation.mutateAsync(homeworkData);
+    await homeworkMutation.mutateAsync(data);
   };
 
   return (
@@ -82,7 +103,7 @@ export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSucces
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
           Content
         </label>
         <textarea
@@ -97,14 +118,16 @@ export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSucces
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="lesson_id" className="block text-sm font-medium text-gray-700 mb-1">
             Lesson <span className="text-red-500">*</span>
           </label>
           <select
             {...register('lesson_id')}
             className="input"
+            defaultValue=""
+            required
           >
-            <option value="">Select a lesson</option>
+            <option value="" disabled>Select a lesson</option>
             {lessons?.map((lesson) => (
               <option key={lesson.id} value={lesson.id}>
                 {lesson.lesson_name}
@@ -117,14 +140,16 @@ export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSucces
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="class_id" className="block text-sm font-medium text-gray-700 mb-1">
             Class <span className="text-red-500">*</span>
           </label>
           <select
             {...register('class_id')}
             className="input"
+            defaultValue=""
+            required
           >
-            <option value="">Select a class</option>
+            <option value="" disabled>Select a class</option>
             {classes?.map((cls) => (
               <option key={cls.id} value={cls.id}>
                 {cls.class_name}
@@ -147,11 +172,11 @@ export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSucces
         />
       </div>
 
-      {createHomeworkMutation.error && (
+      {homeworkMutation.error && (
         <div className="p-3 rounded-lg bg-red-50 border border-red-200">
           <p className="text-sm text-red-600">
-            {createHomeworkMutation.error instanceof Error 
-              ? createHomeworkMutation.error.message 
+            {homeworkMutation.error instanceof Error 
+              ? homeworkMutation.error.message 
               : 'Failed to create homework. Please try again.'
             }
           </p>
@@ -172,10 +197,10 @@ export const CreateHomeworkForm: React.FC<CreateHomeworkFormProps> = ({ onSucces
         <Button
           type="submit"
           variant="primary"
-          loading={createHomeworkMutation.isPending}
+          loading={homeworkMutation.isPending}
           className="flex-1"
         >
-          Create Homework
+          {initialData ? 'Save Changes' : 'Create Homework'}
         </Button>
       </div>
     </form>

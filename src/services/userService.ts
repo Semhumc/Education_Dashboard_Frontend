@@ -41,6 +41,11 @@ export const userService = {
     return await userService.getUsersByRole('student');
   },
 
+  getStudentsByClass: async (classId: string): Promise<User[]> => {
+    const response = await api.get(`/v1/api/class/${classId}/students`);
+    return response.data;
+  },
+
   // Search users
   searchUsers: async (searchTerm: string): Promise<User[]> => {
     const allUsers = await userService.getAllUsers();
