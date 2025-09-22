@@ -7,7 +7,6 @@ import { User, Mail, Phone, Lock, UserCheck } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { useAuth } from '../../hooks/useAuths';
-import './RegisterForm.css'; // Import the new CSS file
 
 const registerSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
@@ -17,7 +16,7 @@ const registerSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   phone: z.string().min(10, 'Phone number must be at least 10 digits'),
-  role: z.enum(['admin', 'teacher', 'student']),
+  role: z.enum(['Admin', 'Teacher', 'Student']),
   familyPhone: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -56,8 +55,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="register-form">
-      <div className="register-form-grid-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-sm mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           {...register('firstName')}
           label="First Name"
@@ -110,25 +109,25 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       />
 
       <div>
-        <label htmlFor="role" className="register-form-label">
+        <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
           Role <span className="text-red-500">*</span>
         </label>
         <select
           {...register('role')}
           id="role"
-          className="register-form-select"
+          className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
         >
           <option value="">Select your role</option>
-          <option value="student">Student</option>
-          <option value="teacher">Teacher</option>
-          <option value="admin">Administrator</option>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher</option>
+          <option value="Admin">Administrator</option>
         </select>
         {errors.role && (
-          <p className="register-form-error-message">{errors.role.message}</p>
+          <p className="error-message">{errors.role.message}</p>
         )}
       </div>
 
-      {selectedRole === 'student' && (
+      {selectedRole === 'Student' && (
         <Input
           {...register('familyPhone')}
           label="Family Phone (Optional)"
@@ -139,7 +138,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         />
       )}
 
-      <div className="register-form-grid-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           {...register('password')}
           label="Password"
@@ -165,7 +164,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         type="submit"
         variant="primary"
         loading={isLoading}
-        className="register-form-button"
+        className="w-full"
       >
         Create Account
       </Button>

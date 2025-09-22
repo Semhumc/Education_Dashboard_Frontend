@@ -1,6 +1,5 @@
 // src/components/ui/Button.tsx
-import React, { ButtonHTMLAttributes } from 'react';
-import './Button.css'; // Import the new CSS file
+import React, { type ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' | 'success';
@@ -21,11 +20,10 @@ export const Button: React.FC<ButtonProps> = ({
   const baseClass = 'btn';
   const variantClass = `btn-${variant}`;
   const sizeClass = `btn-${size}`;
-  const loadingClass = loading ? 'opacity-70 cursor-not-allowed' : '';
-
+  
   return (
     <button
-      className={`${baseClass} ${variantClass} ${sizeClass} ${loadingClass} ${className || ''}`.trim()}
+      className={`${baseClass} ${variantClass} ${sizeClass} ${loading ? 'opacity-70 cursor-not-allowed' : ''} ${className || ''}`.trim()}
       disabled={loading}
       {...props}
     >

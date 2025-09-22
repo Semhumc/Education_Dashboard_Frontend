@@ -6,7 +6,6 @@ import { User, Lock } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { useAuth } from '../../hooks/useAuths';
-import './LoginForm.css'; // Import the new CSS file
 
 const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -35,8 +34,8 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-      <div className="login-form-group">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 max-w-sm mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="mb-4">
         <Input
           {...register('username')}
           label="Username"
@@ -48,7 +47,7 @@ export const LoginForm: React.FC = () => {
         />
       </div>
 
-      <div className="login-form-group">
+      <div className="mb-4">
         <Input
           {...register('password')}
           label="Password"

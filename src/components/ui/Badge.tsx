@@ -1,6 +1,5 @@
 // src/components/ui/Badge.tsx
 import React from 'react';
-import './Badge.css';
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   variant?: 'primary' | 'success' | 'warning' | 'danger';

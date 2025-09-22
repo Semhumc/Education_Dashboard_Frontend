@@ -8,7 +8,7 @@ import { authService } from '../../../services/authService';
 import { classService } from '../../../services/classService';
 import { homeworkService } from '../../../services/homeworkService';
 import { scheduleService } from '../../../services/scheduleService';
-import './AdminDashboard.css'; // Import the new CSS file
+
 
 interface StatCardProps {
   title: string;
@@ -194,7 +194,7 @@ export const AdminDashboard: React.FC = () => {
                     <p className="recent-user-email">{user.email}</p>
                   </div>
                 </div>
-                <Badge variant={user.role === 'admin' ? 'danger' : user.role === 'teacher' ? 'warning' : 'primary'}>
+                <Badge variant={user.role === 'Admin' ? 'danger' : user.role === 'Teacher' ? 'warning' : 'primary'}>
                   {user.role}
                 </Badge>
               </div>

@@ -12,7 +12,7 @@ import { useNotification } from '../../../hooks/useNotification';
 import { classService } from '../../../services/classService';
 import { userService } from '../../../services/userService';
 import type { Class } from '../../../types/auth.types';
-import './ClassManagementPage.css'; // Import the new CSS file
+
 
 export const ClassManagementPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);

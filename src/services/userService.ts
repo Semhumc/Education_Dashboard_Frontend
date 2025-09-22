@@ -4,25 +4,25 @@ import type { User, RegisterRequest } from '../types/auth.types';
 
 export const userService = {
   getAllUsers: async (): Promise<User[]> => {
-    const response = await api.get('/user/allusers');
+    const response = await api.get('/v1/api/user/allusers');
     return response.data;
   },
 
   getUserById: async (userId: string): Promise<User> => {
-    const response = await api.get(`/user/currentuser/${userId}`);
+    const response = await api.get(`/v1/api/user/currentuser/${userId}`);
     return response.data;
   },
 
   updateUser: async (userId: string, userData: RegisterRequest): Promise<void> => {
-    await api.put(`/user/update/${userId}`, userData);
+    await api.put(`/v1/api/user/update/${userId}`, userData);
   },
 
   deleteUser: async (userId: string): Promise<void> => {
-    await api.delete(`/user/delete/${userId}`);
+    await api.delete(`/v1/api/user/delete/${userId}`);
   },
 
   createUser: async (userData: RegisterRequest): Promise<void> => {
-    await api.post('/create', userData);
+    await api.post('/v1/api/user/create', userData);
   },
 
   // Filter users by role
@@ -42,7 +42,7 @@ export const userService = {
   },
 
   getStudentsByClass: async (classId: string): Promise<User[]> => {
-    const response = await api.get(`/class/${classId}/students`);
+    const response = await api.get(`/v1/api/class/${classId}/students`);
     return response.data;
   },
 

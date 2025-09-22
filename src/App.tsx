@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuth } from './hooks/useAuths';
 import './styles/globals.css'; // Import global CSS directly
-import './styles/components.css'; // Import component-specific CSS
 
 // Layouts
 import { DashboardLayout } from './components/layout/DashboardLayout';
@@ -46,11 +45,11 @@ const AppRoutes: React.FC = () => {
     if (!user) return <Navigate to="/login" replace />;
     
     switch (user.role) {
-      case 'admin':
+      case 'Admin':
         return <AdminDashboard />;
-      case 'teacher':
+      case 'Teacher':
         return <TeacherDashboard />;
-      case 'student':
+      case 'Student':
         return <StudentDashboard />;
       default:
         return <Navigate to="/login" replace />;
@@ -73,30 +72,22 @@ const AppRoutes: React.FC = () => {
           
           {/* Admin Routes */}
           <Route path="/admin/*" element={
-            <ProtectedRoute requiredRole="admin">
-              <Routes>
-                <Route path="classes" element={<ClassManagementPage />} />
-                <Route path="users" element={<UserManagementPage />} />
-                <Route path="*" element={<Navigate to="classes" replace />} />
-              </Routes>
+            <ProtectedRoute requiredRole="Admin">
+              <AdminRoutes />
             </ProtectedRoute>
           } />
           
           {/* Teacher Routes */}
           <Route path="/teacher/*" element={
-            <ProtectedRoute requiredRole="teacher">
-              <Routes>
-                <Route path="classes" element={<TeacherClassesPage />} />
-                <Route path="homework" element={<TeacherHomeworkPage />} />
-                <Route path="*" element={<Navigate to="classes" replace />} />
-              </Routes>
+            <ProtectedRoute requiredRole="Teacher">
+              <TeacherRoutes />
             </ProtectedRoute>
           } />
           
           {/* Student Routes */}
           <Route path="/student/*" element={
-            <ProtectedRoute requiredRole="student">
-              {/* Student specific routes here */}
+            <ProtectedRoute requiredRole="Student">
+              <StudentDashboard />
             </ProtectedRoute>
           } />
         </Route>
@@ -107,6 +98,22 @@ const AppRoutes: React.FC = () => {
     </Routes>
   );
 };
+
+const AdminRoutes: React.FC = () => (
+  <Routes>
+    <Route path="classes" element={<ClassManagementPage />} />
+    <Route path="users" element={<UserManagementPage />} />
+    <Route path="*" element={<Navigate to="classes" replace />} />
+  </Routes>
+);
+
+const TeacherRoutes: React.FC = () => (
+  <Routes>
+    <Route path="classes" element={<TeacherClassesPage />} />
+    <Route path="homework" element={<TeacherHomeworkPage />} />
+    <Route path="*" element={<Navigate to="classes" replace />} />
+  </Routes>
+);
 
 const App: React.FC = () => {
   return (

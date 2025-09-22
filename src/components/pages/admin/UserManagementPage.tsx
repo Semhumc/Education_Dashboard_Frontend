@@ -104,8 +104,8 @@ export const UserManagementPage: React.FC = () => {
       render: (user: User) => (
         <Badge 
           variant={
-            user.role === 'admin' ? 'danger' : 
-            user.role === 'teacher' ? 'warning' : 
+            user.role === 'Admin' ? 'danger' : 
+            user.role === 'Teacher' ? 'warning' : 
             'primary'
           }
         >
@@ -138,16 +138,16 @@ export const UserManagementPage: React.FC = () => {
 
   const roleOptions = [
     { value: 'all', label: 'All Roles' },
-    { value: 'admin', label: 'Administrators' },
-    { value: 'teacher', label: 'Teachers' },
-    { value: 'student', label: 'Students' },
+    { value: 'Admin', label: 'Administrators' },
+    { value: 'Teacher', label: 'Teachers' },
+    { value: 'Student', label: 'Students' },
   ];
 
   const stats = {
     total: users.length,
-    admins: users.filter(u => u.role === 'admin').length,
-    teachers: users.filter(u => u.role === 'teacher').length,
-    students: users.filter(u => u.role === 'student').length,
+    admins: users.filter(u => u.role === 'Admin').length,
+    teachers: users.filter(u => u.role === 'Teacher').length,
+    students: users.filter(u => u.role === 'Student').length,
   };
 
   return (

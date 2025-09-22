@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;

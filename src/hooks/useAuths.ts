@@ -4,6 +4,8 @@ import { authService } from '../services/authService';
 import type { RegisterRequest } from '../types/auth.types';
 import type { LoginRequest } from '../types/auth.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { jwtDecode } from 'jwt-decode';
+import type { User } from '../types/auth.types';
 
 export const useAuth = () => {
   const { token, user, isAuthenticated, setAuth, logout: storeLogout } = useAuthStore();
@@ -12,18 +14,17 @@ export const useAuth = () => {
   const loginMutation = useMutation({
     mutationFn: authService.login,
     onSuccess: (data) => {
-      // JWT token'ı decode ederek user bilgilerini al (real implementation'da jwt-decode kullanın)
-      // Bu örnek için static user object kullanıyorum
-      const mockUser = {
-        id: '1',
-        username: 'user',
-        email: 'user@example.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        phone: '123456789',
-        role: 'teacher'
+      const decodedToken: any = jwtDecode(data.access_token);
+      const user: User = {
+        id: decodedToken.sub,
+        username: decodedToken.preferred_username,
+        email: decodedToken.email,
+        firstName: decodedToken.given_name,
+        lastName: decodedToken.family_name,
+        phone: decodedToken.phone_number || '',
+        role: decodedToken.realm_access?.roles?.[0] || 'student' // Assuming first role is the primary role
       };
-      setAuth(data.access_token, data.refresh_token, mockUser);
+      setAuth(data.access_token, data.refresh_token, user);
     },
   });
 

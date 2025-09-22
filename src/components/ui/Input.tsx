@@ -1,6 +1,5 @@
 // src/components/ui/Input.tsx
 import React, { type InputHTMLAttributes } from 'react';
-import './Input.css'; // Import the new CSS file
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -19,7 +18,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }, ref) => {
     const inputId = id || (label ? label.toLowerCase().replace(/[^a-z0-9]/g, '') : undefined);
     const hasIcon = !!Icon;
-
+  
     return (
       <div className="input-container">
         {label && (

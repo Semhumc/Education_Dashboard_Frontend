@@ -11,13 +11,8 @@ export interface RegisterRequest {
   firstName: string;
   lastName: string;
   phone: string;
-  role: 'admin' | 'teacher' | 'student';
+  role: 'Admin' | 'Teacher' | 'Student';
   familyPhone?: string;
-}
-
-export interface LoginResponse {
-  access_token: string;
-  refresh_token: string;
 }
 
 export interface User {
@@ -26,7 +21,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  phone: string;
+  phone?: string; // Made optional as it might not be in Keycloak token
   role: string;
   familyPhone?: string;
 }

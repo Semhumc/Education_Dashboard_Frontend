@@ -1,6 +1,5 @@
 // src/components/ui/Table.tsx
 import React from 'react';
-import './Table.css'; // Import the new CSS file
 
 interface Column<T> {
   key: keyof T | string;

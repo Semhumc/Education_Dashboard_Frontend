@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import Keycloak from 'keycloak-js';
 
 const keycloakConfig = {
-  url: import.meta.env.VITE_KEYCLOAK_URL || 'http://localhost:8080',
-  realm: import.meta.env.VITE_KEYCLOAK_REALM || 'education',
-  clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'education-client',
+  url: 'http://localhost:8080',
+  realm:'education_dashboard',
+  clientId: 'be-client',
 };
 
 const keycloak = new Keycloak(keycloakConfig);

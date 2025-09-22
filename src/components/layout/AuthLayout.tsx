@@ -2,34 +2,33 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Calendar, ClipboardList, GraduationCap, UserCheck } from 'lucide-react';
-import './AuthLayout.css';
 
 export const AuthLayout: React.FC = () => {
   return (
-    <div className="auth-layout-container">
+    <div className="flex min-h-screen bg-gray-50 p-4">
       {/* Left side - Branding */}
-      <div className="auth-layout-left">
-        <div className="auth-layout-left-content">
-          <div className="auth-layout-logo-wrapper">
-            <GraduationCap className="auth-layout-logo" />
+      <div className="hidden lg:flex flex-1 items-center justify-center bg-gradient-to-r from-green-600 to-green-800 rounded-lg p-6">
+        <div className="text-white text-center">
+          <div className="flex items-center justify-center mb-4">
+            <GraduationCap className="h-12 w-12" />
           </div>
-          <h1 className="auth-layout-title">
+          <h1 className="text-3xl font-bold mt-2">
             Education Dashboard
           </h1>
-          <p className="auth-layout-subtitle">
+          <p className="mt-2 text-green-100">
             Streamline your educational management with our comprehensive platform
           </p>
-          <div className="auth-layout-features">
-            <div className="auth-layout-feature-item">
-              <UserCheck className="auth-layout-feature-icon" />
+          <div className="mt-6 space-y-3">
+            <div className="flex items-center justify-center space-x-2">
+              <UserCheck className="h-5 w-5" />
               <span>Attendance Tracking</span>
             </div>
-            <div className="auth-layout-feature-item">
-              <ClipboardList className="auth-layout-feature-icon" />
+            <div className="flex items-center justify-center space-x-2">
+              <ClipboardList className="h-5 w-5" />
               <span>Homework Management</span>
             </div>
-            <div className="auth-layout-feature-item">
-              <Calendar className="auth-layout-feature-icon" />
+            <div className="flex items-center justify-center space-x-2">
+              <Calendar className="h-5 w-5" />
               <span>Schedule Planning</span>
             </div>
           </div>
@@ -37,11 +36,11 @@ export const AuthLayout: React.FC = () => {
       </div>
 
       {/* Right side - Auth forms */}
-      <div className="auth-layout-right">
-        <div className="auth-layout-form-wrapper">
-          <div className="auth-layout-mobile-header">
-            <GraduationCap className="auth-layout-mobile-logo" />
-            <h2 className="auth-layout-mobile-title">Education Dashboard</h2>
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg p-8 space-y-6 bg-white rounded-lg shadow-xl">
+          <div className="lg:hidden flex items-center justify-center mb-4">
+            <GraduationCap className="h-10 w-10 text-blue-600" />
+            <h2 className="text-2xl font-bold text-gray-900 ml-3">Education Dashboard</h2>
           </div>
           <Outlet />
         </div>
