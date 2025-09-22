@@ -1,0 +1,84 @@
+/* src/components/layout/Header.css */
+
+.header {
+  background-color: white; /* bg-white */
+  border-bottom: 1px solid #e5e7eb; /* border-b border-gray-200 */
+  padding: 1rem 1.5rem; /* px-6 py-4 */
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-section {
+  flex: 1; /* flex-1 */
+  max-width: 32rem; /* max-w-lg */
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem; /* left-3 */
+  top: 50%; /* top-1/2 */
+  transform: translateY(-50%); /* -translate-y-1/2 */
+  color: #9ca3af; /* text-gray-400 */
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+}
+
+.search-input {
+  padding-left: 2.5rem; /* pl-10 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem; /* py-2 */
+  border: 1px solid #d1d5db; /* input */
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* space-x-4 */
+}
+
+.notification-button {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -0.25rem; /* -top-1 */
+  right: -0.25rem; /* -right-1 */
+  padding: 0.125rem 0.375rem; /* px-1.5 py-0.5 */
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+}
+
+.user-info {
+  text-align: right; /* text-right */
+}
+
+.user-name {
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500; /* font-medium */
+  color: #1f2937; /* text-gray-900 */
+}
+
+.user-role-badge {
+  margin-top: 0.25rem; /* mt-1 */
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space-x-2 */
+}

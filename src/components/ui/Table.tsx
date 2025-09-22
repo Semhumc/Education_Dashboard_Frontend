@@ -1,6 +1,6 @@
 // src/components/ui/Table.tsx
 import React from 'react';
-import { clsx } from 'clsx';
+import './Table.css'; // Import the new CSS file
 
 interface Column<T> {
   key: keyof T | string;
@@ -17,7 +17,7 @@ interface TableProps<T> {
   className?: string;
 }
 
-export function Table<T extends Record<string, any>>({
+export function Table<T extends object>({
   data,
   columns,
   loading,
@@ -29,7 +29,7 @@ export function Table<T extends Record<string, any>>({
       <div className="animate-pulse">
         <div className="table">
           <div className="table-header">
-            {columns.map((column, index) => (
+            {columns.map((_, index) => (
               <div key={index} className="h-4 bg-gray-200 rounded"></div>
             ))}
           </div>
@@ -48,38 +48,39 @@ export function Table<T extends Record<string, any>>({
   }
 
   return (
-    <div className={clsx('overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg', className)}>
+    <div className={`table-wrapper ${className || ''}`.trim()}>
       <table className="table">
         <thead className="table-header">
           <tr>
             {columns.map((column) => (
               <th
                 key={column.key.toString()}
-                className={clsx(
-                  'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider',
-                  column.className
-                )}
+                className={`table-header-cell ${column.className || ''}`.trim()}
               >
                 {column.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="table-body">
           {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
+              <td colSpan={columns.length} className="table-empty-message">
                 {emptyMessage}
               </td>
             </tr>
           ) : (
             data.map((item, index) => (
               <tr key={index} className="table-row">
-                {columns.map((column) => (
-                  <td key={column.key.toString()} className="table-cell">
-                    {column.render ? column.render(item) : item[column.key as keyof T]}
-                  </td>
-                ))}
+                {columns.map((column) => {
+                  const key = typeof column.key === 'string' ? column.key : String(column.key);
+                  const value = (item as Record<string, unknown>)[key] as React.ReactNode;
+                  return (
+                    <td key={column.key.toString()} className="table-cell">
+                      {column.render ? column.render(item) : value}
+                    </td>
+                  );
+                })}
               </tr>
             ))
           )}
@@ -87,4 +88,4 @@ export function Table<T extends Record<string, any>>({
       </table>
     </div>
   );
-}
+};

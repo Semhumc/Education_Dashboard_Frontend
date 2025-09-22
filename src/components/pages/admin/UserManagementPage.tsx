@@ -1,9 +1,9 @@
 // src/components/pages/admin/UserManagementPage.tsx
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Search, Edit, Trash2, UserCheck, UserX } from 'lucide-react';
+import { Plus, Search, Edit, Trash2, UserCheck } from 'lucide-react';
 import { Button } from '../../ui/Button';
-import { Input } from '../../ui/Input';
+
 import { Card } from '../../ui/Card';
 import { Badge } from '../../ui/Badge';
 import { Modal } from '../../ui/Modal';
@@ -11,7 +11,7 @@ import { Table } from '../../ui/Table';
 import { RegisterForm } from '../../forms/RegisterForm';
 import { useNotification } from '../../../hooks/useNotification';
 import { userService } from '../../../services/userService';
-import { format } from 'date-fns';
+
 import type { User } from '../../../types/auth.types';
 
 export const UserManagementPage: React.FC = () => {

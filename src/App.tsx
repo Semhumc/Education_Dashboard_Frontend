@@ -3,6 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useAuth } from './hooks/useAuths';
+import './styles/globals.css'; // Import global CSS directly
+import './styles/components.css'; // Import component-specific CSS
 
 // Layouts
 import { DashboardLayout } from './components/layout/DashboardLayout';
@@ -38,7 +40,7 @@ const queryClient = new QueryClient({
 });
 
 const AppRoutes: React.FC = () => {
-  const { isAuthenticated, user } = useAuth();
+  const { user } = useAuth();
 
   const getDashboardByRole = () => {
     if (!user) return <Navigate to="/login" replace />;
@@ -110,7 +112,7 @@ const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="App">
+        <div className="app-container">
           <AppRoutes />
         </div>
       </Router>

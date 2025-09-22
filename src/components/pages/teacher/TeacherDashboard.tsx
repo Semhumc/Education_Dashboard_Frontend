@@ -27,11 +27,7 @@ export const TeacherDashboard: React.FC = () => {
     enabled: !!teacherId,
   });
 
-  const { data: mySchedules = [] } = useQuery({
-    queryKey: ['teacher-schedules', teacherId],
-    queryFn: () => scheduleService.getSchedulesByTeacher(teacherId),
-    enabled: !!teacherId,
-  });
+
 
   const { data: upcomingSchedules = [] } = useQuery({
     queryKey: ['upcoming-schedules', teacherId],

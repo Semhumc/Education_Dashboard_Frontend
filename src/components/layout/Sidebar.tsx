@@ -1,7 +1,7 @@
 // src/components/layout/Sidebar.tsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
+import './Sidebar.css'; // Import the new CSS file
 import { 
   Home, 
   Users, 
@@ -54,37 +54,27 @@ export const Sidebar: React.FC = () => {
   const filteredNavigation = navigation.filter(item => item.roles.includes(userRole));
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
-      <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white border-r border-gray-200 px-6 pb-4">
+    <div className="sidebar-container">
+      <div className="sidebar-content">
         {/* Logo */}
-        <div className="flex h-16 shrink-0 items-center">
-          <GraduationCap className="h-8 w-8 text-primary-600" />
-          <span className="ml-2 text-xl font-bold text-gray-900">EduDash</span>
+        <div className="sidebar-logo-section">
+          <GraduationCap className="sidebar-logo-icon" />
+          <span className="sidebar-logo-text">EduDash</span>
         </div>
 
         {/* Navigation */}
-        <nav className="flex flex-1 flex-col">
-          <ul role="list" className="flex flex-1 flex-col gap-y-7">
+        <nav className="sidebar-nav">
+          <ul role="list" className="sidebar-nav-list">
             <li>
-              <ul role="list" className="-mx-2 space-y-1">
+              <ul role="list" className="sidebar-nav-item-list">
                 {filteredNavigation.map((item) => (
                   <li key={item.name}>
                     <Link
                       to={item.href}
-                      className={clsx(
-                        location.pathname === item.href
-                          ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-700'
-                          : 'text-gray-700 hover:text-primary-700 hover:bg-gray-50',
-                        'group flex gap-x-3 rounded-l-md p-2 text-sm leading-6 font-semibold transition-colors'
-                      )}
+                      className={`sidebar-nav-link ${location.pathname === item.href ? 'sidebar-nav-link-active' : 'sidebar-nav-link-inactive'}`}
                     >
                       <item.icon
-                        className={clsx(
-                          location.pathname === item.href 
-                            ? 'text-primary-700' 
-                            : 'text-gray-400 group-hover:text-primary-700',
-                          'h-6 w-6 shrink-0'
-                        )}
+                        className={`sidebar-nav-icon ${location.pathname === item.href ? 'sidebar-nav-icon-active' : 'sidebar-nav-icon-inactive'}`}
                       />
                       {item.name}
                     </Link>
@@ -96,18 +86,18 @@ export const Sidebar: React.FC = () => {
         </nav>
 
         {/* User info */}
-        <div className="border-t border-gray-200 pt-4">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-                <Users className="h-6 w-6 text-primary-600" />
+        <div className="sidebar-user-section">
+          <div className="sidebar-user-info">
+            <div className="sidebar-user-avatar-wrapper">
+              <div className="sidebar-user-avatar">
+                <Users className="sidebar-user-avatar-icon" />
               </div>
             </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-gray-900">
+            <div className="sidebar-user-details">
+              <p className="sidebar-user-name">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
+              <p className="sidebar-user-role">{user?.role}</p>
             </div>
           </div>
         </div>

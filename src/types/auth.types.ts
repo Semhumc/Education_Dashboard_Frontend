@@ -32,7 +32,7 @@ export interface User {
 }
 
 // src/types/api.types.ts
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data?: T;
   message?: string;
   error?: boolean;

@@ -7,6 +7,7 @@ import { User, Mail, Phone, Lock, UserCheck } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { useAuth } from '../../hooks/useAuths';
+import './RegisterForm.css'; // Import the new CSS file
 
 const registerSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
@@ -30,7 +31,7 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
-  const { register: registerUser, isLoading, error } = useAuth();
+  const { register: registerUser, isLoading } = useAuth();
   
   const {
     register,
@@ -46,16 +47,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const { confirmPassword, ...registerData } = data;
+      void confirmPassword;
       await registerUser(registerData);
       onSuccess?.();
-    } catch (error) {
+    } catch {
       // Error is handled by the useAuth hook
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="register-form">
+      <div className="register-form-grid-2">
         <Input
           {...register('firstName')}
           label="First Name"
@@ -108,12 +110,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="role" className="register-form-label">
           Role <span className="text-red-500">*</span>
         </label>
         <select
           {...register('role')}
-          className="input"
+          id="role"
+          className="register-form-select"
         >
           <option value="">Select your role</option>
           <option value="student">Student</option>
@@ -121,7 +124,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
           <option value="admin">Administrator</option>
         </select>
         {errors.role && (
-          <p className="text-sm text-red-600 mt-1">{errors.role.message}</p>
+          <p className="register-form-error-message">{errors.role.message}</p>
         )}
       </div>
 
@@ -136,7 +139,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         />
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="register-form-grid-2">
         <Input
           {...register('password')}
           label="Password"
@@ -158,19 +161,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
         />
       </div>
 
-      {error && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200">
-          <p className="text-sm text-red-600">
-            {error instanceof Error ? error.message : 'Registration failed. Please try again.'}
-          </p>
-        </div>
-      )}
-
       <Button
         type="submit"
         variant="primary"
         loading={isLoading}
-        className="w-full"
+        className="register-form-button"
       >
         Create Account
       </Button>

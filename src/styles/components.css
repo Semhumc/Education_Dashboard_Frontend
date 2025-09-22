@@ -1,0 +1,5 @@
+/* src/styles/components.css */
+.app-container {
+  min-height: 100vh;
+  background-color: #f3f4f6; /* bg-gray-100 */
+}

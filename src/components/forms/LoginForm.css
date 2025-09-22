@@ -1,0 +1,11 @@
+/* src/components/forms/LoginForm.css */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* space-y-6 */
+}
+
+.login-form-group {
+  margin-bottom: 1rem; /* Equivalent to a div around input */
+}

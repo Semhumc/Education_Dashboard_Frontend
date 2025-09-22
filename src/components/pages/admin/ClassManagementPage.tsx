@@ -12,6 +12,7 @@ import { useNotification } from '../../../hooks/useNotification';
 import { classService } from '../../../services/classService';
 import { userService } from '../../../services/userService';
 import type { Class } from '../../../types/auth.types';
+import './ClassManagementPage.css'; // Import the new CSS file
 
 export const ClassManagementPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -71,13 +72,13 @@ export const ClassManagementPage: React.FC = () => {
       key: 'class_name',
       header: 'Class Name',
       render: (cls: Class) => (
-        <div className="flex items-center space-x-3">
-          <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-            <BookOpen className="h-4 w-4 text-blue-600" />
+        <div className="class-name-column">
+          <div className="class-icon-wrapper">
+            <BookOpen className="class-icon" />
           </div>
           <div>
-            <div className="font-medium text-gray-900">{cls.class_name}</div>
-            <div className="text-sm text-gray-500">ID: {cls.id}</div>
+            <div className="class-details-name">{cls.class_name}</div>
+            <div className="class-details-id">ID: {cls.id}</div>
           </div>
         </div>
       ),
@@ -86,16 +87,16 @@ export const ClassManagementPage: React.FC = () => {
       key: 'teacher',
       header: 'Teacher',
       render: (cls: Class) => (
-        <div className="flex items-center space-x-2">
-          <Users className="h-4 w-4 text-gray-400" />
-          <span className="text-sm text-gray-900">{getTeacherName(cls.teacher_id)}</span>
+        <div className="teacher-column">
+          <Users className="teacher-icon" />
+          <span className="teacher-name">{getTeacherName(cls.teacher_id)}</span>
         </div>
       ),
     },
     {
       key: 'status',
       header: 'Status',
-      render: (cls: Class) => (
+      render: () => (
         <Badge variant="success">Active</Badge>
       ),
     },
@@ -103,7 +104,7 @@ export const ClassManagementPage: React.FC = () => {
       key: 'actions',
       header: 'Actions',
       render: (cls: Class) => (
-        <div className="flex items-center space-x-2">
+        <div className="actions-column">
           <Button
             variant="ghost"
             size="sm"
@@ -115,7 +116,7 @@ export const ClassManagementPage: React.FC = () => {
             size="sm"
             icon={Trash2}
             onClick={() => handleDeleteClass(cls.id)}
-            className="text-red-600 hover:text-red-700"
+            className="action-button-danger"
           />
         </div>
       ),
@@ -129,12 +130,12 @@ export const ClassManagementPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="class-management-container">
       {/* Page Header */}
-      <div className="flex justify-between items-center">
+      <div className="class-management-header">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Class Management</h1>
-          <p className="text-gray-600 mt-1">Manage classes and teacher assignments</p>
+          <h1 className="class-management-title">Class Management</h1>
+          <p className="class-management-subtitle">Manage classes and teacher assignments</p>
         </div>
         <Button
           variant="primary"
@@ -146,48 +147,48 @@ export const ClassManagementPage: React.FC = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-4">
+      <div className="stats-cards-grid">
+        <Card className="stat-card-content-center">
           <div className="text-center">
-            <p className="text-2xl font-bold text-blue-600">{stats.total}</p>
-            <p className="text-sm text-gray-600">Total Classes</p>
+            <p className="stat-value-blue">{stats.total}</p>
+            <p className="stat-label">Total Classes</p>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="stat-card-content-center">
           <div className="text-center">
-            <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-            <p className="text-sm text-gray-600">Active Classes</p>
+            <p className="stat-value-green">{stats.active}</p>
+            <p className="stat-label">Active Classes</p>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="stat-card-content-center">
           <div className="text-center">
-            <p className="text-2xl font-bold text-yellow-600">{stats.teachers}</p>
-            <p className="text-sm text-gray-600">Assigned Teachers</p>
+            <p className="stat-value-yellow">{stats.teachers}</p>
+            <p className="stat-label">Assigned Teachers</p>
           </div>
         </Card>
       </div>
 
       {/* Search Filter */}
-      <Card className="p-4">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <Card className="search-filter-card-content">
+        <div className="search-filter-wrapper">
+          <div className="search-input-group">
+            <Search className="search-icon" />
             <input
               type="text"
               placeholder="Search classes..."
-              className="input pl-10"
+              className="input search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="text-sm text-gray-600">
+          <div className="search-results-info">
             Showing {filteredClasses.length} of {classes.length} classes
           </div>
         </div>
       </Card>
 
       {/* Classes Table */}
-      <Card>
+      <Card className="class-table-card-content">
         <Table
           data={filteredClasses}
           columns={columns}

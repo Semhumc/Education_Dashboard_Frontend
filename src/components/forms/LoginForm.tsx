@@ -6,6 +6,7 @@ import { User, Lock } from 'lucide-react';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { useAuth } from '../../hooks/useAuths';
+import './LoginForm.css'; // Import the new CSS file
 
 const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
@@ -15,7 +16,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export const LoginForm: React.FC = () => {
-  const { login, isLoading, error } = useAuth();
+  const { login, isLoading } = useAuth();
   
   const {
     register,
@@ -28,14 +29,14 @@ export const LoginForm: React.FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
-    } catch (error) {
+    } catch {
       // Error is handled by the useAuth hook
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div>
+    <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+      <div className="login-form-group">
         <Input
           {...register('username')}
           label="Username"
@@ -47,7 +48,7 @@ export const LoginForm: React.FC = () => {
         />
       </div>
 
-      <div>
+      <div className="login-form-group">
         <Input
           {...register('password')}
           label="Password"
@@ -58,14 +59,6 @@ export const LoginForm: React.FC = () => {
           required
         />
       </div>
-
-      {error && (
-        <div className="p-3 rounded-lg bg-red-50 border border-red-200">
-          <p className="text-sm text-red-600">
-            {error instanceof Error ? error.message : 'Login failed. Please try again.'}
-          </p>
-        </div>
-      )}
 
       <Button
         type="submit"

@@ -2,33 +2,34 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Calendar, ClipboardList, GraduationCap, UserCheck } from 'lucide-react';
+import './AuthLayout.css';
 
 export const AuthLayout: React.FC = () => {
   return (
-    <div className="min-h-screen flex">
+    <div className="auth-layout-container">
       {/* Left side - Branding */}
-      <div className="hidden lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:px-8 lg:bg-gradient-to-br lg:from-primary-600 lg:to-primary-800">
-        <div className="mx-auto max-w-md text-center">
-          <div className="flex justify-center mb-6">
-            <GraduationCap className="h-16 w-16 text-white" />
+      <div className="auth-layout-left">
+        <div className="auth-layout-left-content">
+          <div className="auth-layout-logo-wrapper">
+            <GraduationCap className="auth-layout-logo" />
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h1 className="auth-layout-title">
             Education Dashboard
           </h1>
-          <p className="text-xl text-primary-100">
+          <p className="auth-layout-subtitle">
             Streamline your educational management with our comprehensive platform
           </p>
-          <div className="mt-8 space-y-4 text-primary-100">
-            <div className="flex items-center justify-center space-x-2">
-              <UserCheck className="h-5 w-5" />
+          <div className="auth-layout-features">
+            <div className="auth-layout-feature-item">
+              <UserCheck className="auth-layout-feature-icon" />
               <span>Attendance Tracking</span>
             </div>
-            <div className="flex items-center justify-center space-x-2">
-              <ClipboardList className="h-5 w-5" />
+            <div className="auth-layout-feature-item">
+              <ClipboardList className="auth-layout-feature-icon" />
               <span>Homework Management</span>
             </div>
-            <div className="flex items-center justify-center space-x-2">
-              <Calendar className="h-5 w-5" />
+            <div className="auth-layout-feature-item">
+              <Calendar className="auth-layout-feature-icon" />
               <span>Schedule Planning</span>
             </div>
           </div>
@@ -36,11 +37,11 @@ export const AuthLayout: React.FC = () => {
       </div>
 
       {/* Right side - Auth forms */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-md">
-          <div className="text-center lg:hidden mb-8">
-            <GraduationCap className="mx-auto h-12 w-12 text-primary-600" />
-            <h2 className="mt-2 text-2xl font-bold text-gray-900">Education Dashboard</h2>
+      <div className="auth-layout-right">
+        <div className="auth-layout-form-wrapper">
+          <div className="auth-layout-mobile-header">
+            <GraduationCap className="auth-layout-mobile-logo" />
+            <h2 className="auth-layout-mobile-title">Education Dashboard</h2>
           </div>
           <Outlet />
         </div>

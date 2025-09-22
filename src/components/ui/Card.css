@@ -1,0 +1,12 @@
+/* src/components/ui/Card.css */
+
+.card {
+  background-color: white; /* bg-white */
+  border-radius: 0.5rem; /* rounded-lg */
+  border: 1px solid #e5e7eb; /* border border-gray-200 */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+}
+
+.card-padding {
+  padding: 1.5rem; /* p-6 */
+}

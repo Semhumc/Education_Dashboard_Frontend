@@ -1,7 +1,7 @@
 // src/components/pages/teacher/TeacherHomeworkPage.tsx
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Plus, Calendar, Clock, AlertCircle, ClipboardList } from 'lucide-react';
+import { Plus, Calendar, Clock, ClipboardList } from 'lucide-react';
 import { Card } from '../../ui/Card';
 import { Button } from '../../ui/Button';
 import { Badge } from '../../ui/Badge';

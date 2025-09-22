@@ -217,7 +217,7 @@ const ClassHomeworkModalContent: React.FC<ClassModalContentProps> = ({ classId }
 
   const columns = [
     { key: 'title', header: 'Title' },
-    { key: 'due_date', header: 'Due Date', render: (hw: any) => format(new Date(hw.due_date), 'MMM dd, yyyy HH:mm') },
+    { key: 'due_date', header: 'Due Date', render: (hw: { due_date: string }) => format(new Date(hw.due_date), 'MMM dd, yyyy HH:mm') },
   ];
 
   return (
@@ -240,7 +240,7 @@ const ClassScheduleModalContent: React.FC<ClassModalContentProps> = ({ classId }
   });
 
   const columns = [
-    { key: 'date', header: 'Date', render: (sch: any) => format(new Date(sch.date), 'MMM dd, yyyy') },
+    { key: 'date', header: 'Date', render: (sch: { date: string }) => format(new Date(sch.date), 'MMM dd, yyyy') },
     { key: 'time', header: 'Time' },
     { key: 'lesson_name', header: 'Lesson' }, // Assuming schedule object includes lesson_name
   ];

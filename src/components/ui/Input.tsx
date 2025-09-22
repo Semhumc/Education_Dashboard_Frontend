@@ -1,51 +1,47 @@
 // src/components/ui/Input.tsx
-import React from 'react';
-import { clsx } from 'clsx';
-import type { LucideIcon } from 'lucide-react';
+import React, { type InputHTMLAttributes } from 'react';
+import './Input.css'; // Import the new CSS file
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  icon?: React.ElementType;
   error?: string;
-  icon?: LucideIcon;
-  helperText?: string;
 }
 
-export const Input: React.FC<InputProps> = ({
-  label,
-  error,
-  icon: Icon,
-  helperText,
-  className,
-  ...props
-}) => {
-  return (
-    <div className="space-y-1">
-      {label && (
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-          {props.required && <span className="text-red-500 ml-1">*</span>}
-        </label>
-      )}
-      <div className="relative">
-        {Icon && (
-          <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({
+    label,
+    icon: Icon,
+    error,
+    className,
+    id,
+    ...props
+  }, ref) => {
+    const inputId = id || (label ? label.toLowerCase().replace(/[^a-z0-9]/g, '') : undefined);
+    const hasIcon = !!Icon;
+
+    return (
+      <div className="input-container">
+        {label && (
+          <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">
+            {label} {props.required && <span className="text-red-500">*</span>}
+          </label>
         )}
-        <input
-          className={clsx(
-            'input',
-            Icon && 'pl-10',
-            error && 'input-error',
-            className
+        <div className="input-wrapper">
+          {Icon && (
+            <Icon className="input-icon" />
           )}
-          {...props}
-        />
+          <input
+            id={inputId}
+            ref={ref}
+            className={`input ${hasIcon ? 'input-icon-left' : ''} ${error ? 'input-error' : ''} ${className || ''}`.trim()}
+            {...props}
+          />
+        </div>
+        {error && (
+          <p className="error-message">{error}</p>
+        )}
       </div>
-      {error && (
-        <p className="text-sm text-red-600">{error}</p>
-      )}
-      {helperText && !error && (
-        <p className="text-sm text-gray-500">{helperText}</p>
-      )}
-    </div>
-  );
-};
+    );
+  }
+);

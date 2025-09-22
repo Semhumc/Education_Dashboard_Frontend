@@ -1,13 +1,14 @@
 // src/pages/admin/AdminDashboard.tsx
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Users, BookOpen, ClipboardList, TrendingUp, Calendar, UserCheck } from 'lucide-react';
+import { Users, BookOpen, ClipboardList, TrendingUp, Calendar } from 'lucide-react';
 import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
 import { authService } from '../../../services/authService';
 import { classService } from '../../../services/classService';
 import { homeworkService } from '../../../services/homeworkService';
 import { scheduleService } from '../../../services/scheduleService';
+import './AdminDashboard.css'; // Import the new CSS file
 
 interface StatCardProps {
   title: string;
@@ -22,29 +23,29 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ title, value, icon: Icon, trend, color = 'blue' }) => {
   const colorClasses = {
-    blue: 'text-blue-600 bg-blue-100',
-    green: 'text-green-600 bg-green-100',
-    yellow: 'text-yellow-600 bg-yellow-100',
-    red: 'text-red-600 bg-red-100',
+    blue: 'stat-card-icon-blue',
+    green: 'stat-card-icon-green',
+    yellow: 'stat-card-icon-yellow',
+    red: 'stat-card-icon-red',
   };
 
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between">
+    <Card className="stat-card-content">
+      <div className="stat-card-header">
         <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{value}</p>
+          <p className="stat-card-title">{title}</p>
+          <p className="stat-card-value">{value}</p>
           {trend && (
-            <div className="flex items-center mt-2">
-              <TrendingUp className={`h-4 w-4 ${trend.isPositive ? 'text-green-500' : 'text-red-500'}`} />
-              <span className={`text-sm font-medium ml-1 ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+            <div className="stat-card-trend">
+              <TrendingUp className={`stat-card-trend-icon ${trend.isPositive ? 'stat-card-trend-positive' : 'stat-card-trend-negative'}`} />
+              <span className={`stat-card-trend-text ${trend.isPositive ? 'stat-card-trend-text-positive' : 'stat-card-trend-text-negative'}`}>
                 {trend.value}
               </span>
             </div>
           )}
         </div>
-        <div className={`p-3 rounded-full ${colorClasses[color]}`}>
-          <Icon className="h-6 w-6" />
+        <div className={`stat-card-icon-wrapper ${colorClasses[color]}`}>
+          <Icon className="stat-card-icon" />
         </div>
       </div>
     </Card>
@@ -84,15 +85,15 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="admin-dashboard-container">
       {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-600 mt-2">Overview of your education management system</p>
+      <div className="admin-dashboard-header">
+        <h1 className="admin-dashboard-title">Admin Dashboard</h1>
+        <p className="admin-dashboard-subtitle">Overview of your education management system</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="stats-grid">
         <StatCard
           title="Total Users"
           value={stats.totalUsers}
@@ -122,73 +123,75 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Secondary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="p-4">
+      <div className="secondary-stats-grid">
+        <Card className="secondary-stat-card-content">
           <div className="text-center">
-            <p className="text-2xl font-bold text-blue-600">{stats.teachers}</p>
-            <p className="text-sm text-gray-600">Teachers</p>
+            <p className="secondary-stat-value-blue">{stats.teachers}</p>
+            <p className="secondary-stat-label">Teachers</p>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="secondary-stat-card-content">
           <div className="text-center">
-            <p className="text-2xl font-bold text-green-600">{stats.students}</p>
-            <p className="text-sm text-gray-600">Students</p>
+            <p className="secondary-stat-value-green">{stats.students}</p>
+            <p className="secondary-stat-label">Students</p>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="secondary-stat-card-content">
           <div className="text-center">
-            <p className="text-2xl font-bold text-yellow-600">{stats.activeHomeworks}</p>
-            <p className="text-sm text-gray-600">Active Homework</p>
+            <p className="secondary-stat-value-yellow">{stats.activeHomeworks}</p>
+            <p className="secondary-stat-label">Active Homework</p>
           </div>
         </Card>
-        <Card className="p-4">
+        <Card className="secondary-stat-card-content">
           <div className="text-center">
-            <p className="text-2xl font-bold text-red-600">{stats.overdueHomeworks}</p>
-            <p className="text-sm text-gray-600">Overdue Homework</p>
+            <p className="secondary-stat-value-red">{stats.overdueHomeworks}</p>
+            <p className="secondary-stat-label">Overdue Homework</p>
           </div>
         </Card>
       </div>
 
       {/* Quick Actions & Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="quick-actions-recent-activity-grid">
         {/* Quick Actions */}
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-          <div className="space-y-3">
-            <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <Users className="h-5 w-5 text-blue-600" />
-                <span className="font-medium">Manage Users</span>
+        <Card className="quick-actions-card-content">
+          <h3 className="quick-actions-title">Quick Actions</h3>
+          <div className="quick-actions-list">
+            <button className="quick-action-button">
+              <div className="quick-action-content">
+                <Users className="quick-action-icon-blue" />
+                <span className="quick-action-text">Manage Users</span>
               </div>
             </button>
-            <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <BookOpen className="h-5 w-5 text-green-600" />
-                <span className="font-medium">Manage Classes</span>
+            <button className="quick-action-button">
+              <div className="quick-action-content">
+                <BookOpen className="quick-action-icon-green" />
+                <span className="quick-action-text">Manage Classes</span>
               </div>
             </button>
-            <button className="w-full text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex items-center space-x-3">
-                <TrendingUp className="h-5 w-5 text-purple-600" />
-                <span className="font-medium">View Reports</span>
+            <button className="quick-action-button">
+              <div className="quick-action-content">
+                <TrendingUp className="quick-action-icon-purple" />
+                <span className="quick-action-text">View Reports</span>
               </div>
             </button>
           </div>
         </Card>
 
         {/* Recent Users */}
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Users</h3>
-          <div className="space-y-3">
+        <Card className="recent-users-card-content">
+          <h3 className="recent-users-title">Recent Users</h3>
+          <div className="recent-users-list">
             {users.slice(0, 5).map((user) => (
-              <div key={user.id} className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                    <Users className="h-4 w-4 text-gray-600" />
+              <div key={user.id} className="recent-user-item">
+                <div className="recent-user-info">
+                  <div className="recent-user-avatar-wrapper">
+                    <div className="recent-user-avatar">
+                      <Users className="recent-user-avatar-icon" />
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900">{user.firstName} {user.lastName}</p>
-                    <p className="text-sm text-gray-500">{user.email}</p>
+                  <div className="recent-user-details">
+                    <p className="recent-user-name">{user.firstName} {user.lastName}</p>
+                    <p className="recent-user-email">{user.email}</p>
                   </div>
                 </div>
                 <Badge variant={user.role === 'admin' ? 'danger' : user.role === 'teacher' ? 'warning' : 'primary'}>

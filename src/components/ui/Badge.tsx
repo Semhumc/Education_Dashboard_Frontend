@@ -1,41 +1,29 @@
 // src/components/ui/Badge.tsx
 import React from 'react';
-import { clsx } from 'clsx';
+import './Badge.css';
 
-interface BadgeProps {
-  variant?: 'primary' | 'success' | 'warning' | 'danger' | 'gray';
-  size?: 'sm' | 'md' | 'lg';
+interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  variant?: 'primary' | 'success' | 'warning' | 'danger';
+  size?: 'sm' | 'md';
   children: React.ReactNode;
-  className?: string;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
   variant = 'primary',
   size = 'md',
+  className,
   children,
-  className
+  ...props
 }) => {
-  const variants = {
-    primary: 'badge-primary',
-    success: 'badge-success',
-    warning: 'badge-warning',
-    danger: 'badge-danger',
-    gray: 'bg-gray-100 text-gray-800',
-  };
-
-  const sizes = {
-    sm: 'px-2 py-0.5 text-xs',
-    md: 'px-2.5 py-0.5 text-sm',
-    lg: 'px-3 py-1 text-base',
-  };
+  const baseClass = 'badge';
+  const variantClass = `badge-${variant}`;
+  const sizeClass = `badge-${size}`;
 
   return (
-    <span className={clsx(
-      'badge',
-      variants[variant],
-      sizes[size],
-      className
-    )}>
+    <span
+      className={`${baseClass} ${variantClass} ${sizeClass} ${className || ''}`.trim()}
+      {...props}
+    >
       {children}
     </span>
   );

@@ -1,17 +1,15 @@
 // src/components/ui/Modal.tsx
-import React, { Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
-import { Button } from './Button';
-import clsx from 'clsx';
+import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
+  title: string;
   children: React.ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  showCloseButton?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -20,70 +18,47 @@ export const Modal: React.FC<ModalProps> = ({
   title,
   children,
   size = 'md',
-  showCloseButton = true,
 }) => {
-  const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl',
-  };
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  return (
-    <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
-        </Transition.Child>
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
 
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <Dialog.Panel className={clsx(
-                'w-full transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all',
-                sizeClasses[size]
-              )}>
-                {(title || showCloseButton) && (
-                  <div className="flex items-center justify-between mb-4">
-                    {title && (
-                      <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                        {title}
-                      </Dialog.Title>
-                    )}
-                    {showCloseButton && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        icon={X}
-                        onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600"
-                        children={null}
-                      />
-                    )}
-                  </div>
-                )}
-                {children}
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    } else {
+      document.removeEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return createPortal(
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        ref={modalRef}
+        className={`modal-content modal-${size}`}
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+      >
+        <div className="modal-header">
+          <h2 className="modal-title">{title}</h2>
+          <button onClick={onClose} className="modal-close-btn">
+            <X className="h-5 w-5" />
+          </button>
         </div>
-      </Dialog>
-    </Transition>
+        <div className="modal-body">
+          {children}
+        </div>
+      </div>
+    </div>,
+    document.body
   );
 };

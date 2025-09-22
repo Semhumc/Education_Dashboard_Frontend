@@ -1,7 +1,7 @@
 // src/pages/student/StudentDashboard.tsx
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ClipboardList, Calendar, UserCheck, BookOpen, Clock, AlertTriangle } from 'lucide-react';
+import { ClipboardList, Calendar, UserCheck, AlertTriangle, Clock } from 'lucide-react';
 import { Card } from '../../../components/ui/Card';
 import { Badge } from '../../../components/ui/Badge';
 import { Button } from '../../../components/ui/Button';
@@ -9,7 +9,7 @@ import { useAuthStore } from '../../../store/authStore';
 import { homeworkService } from '../../../services/homeworkService';
 import { scheduleService } from '../../../services/scheduleService';
 import { attendanceService } from '../../../services/attendanceService';
-import { format, isToday, isThisWeek } from 'date-fns';
+import { format, isToday } from 'date-fns';
 
 export const StudentDashboard: React.FC = () => {
   const { user } = useAuthStore();
@@ -43,7 +43,6 @@ export const StudentDashboard: React.FC = () => {
   });
 
   const todaySchedules = mySchedules.filter(schedule => isToday(new Date(schedule.date)));
-  const thisWeekSchedules = mySchedules.filter(schedule => isThisWeek(new Date(schedule.date)));
 
   const attendanceRate = myAttendance.length > 0 
     ? Math.round((myAttendance.filter(att => att.here).length / myAttendance.length) * 100)

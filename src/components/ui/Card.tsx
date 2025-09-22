@@ -1,31 +1,20 @@
 // src/components/ui/Card.tsx
 import React from 'react';
-import { clsx } from 'clsx';
+import './Card.css';
 
-interface CardProps {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  className?: string;
-  padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-export const Card: React.FC<CardProps> = ({ 
-  children, 
+export const Card: React.FC<CardProps> = ({
   className,
-  padding = 'md' 
+  children,
+  ...props
 }) => {
-  const paddingClasses = {
-    none: '',
-    sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8',
-  };
-
   return (
-    <div className={clsx(
-      'bg-white rounded-lg border border-gray-200 shadow-sm',
-      paddingClasses[padding],
-      className
-    )}>
+    <div className={`card ${className || ''}`.trim()}
+      {...props}
+    >
       {children}
     </div>
   );

@@ -33,7 +33,7 @@ export const lessonService = {
     );
   },
 
-  getLessonStats: async (lessonId: string): Promise<{
+  getLessonStats: async (): Promise<{
     homeworkCount: number;
     scheduleCount: number;
   }> => {

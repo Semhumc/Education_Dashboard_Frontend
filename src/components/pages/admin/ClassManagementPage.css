@@ -1,0 +1,174 @@
+/* src/components/pages/admin/ClassManagementPage.css */
+
+.class-management-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* space-y-6 */
+}
+
+.class-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.class-management-title {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #1f2937; /* text-gray-900 */
+}
+
+.class-management-subtitle {
+  color: #4b5563; /* text-gray-600 */
+  margin-top: 0.25rem; /* mt-1 */
+}
+
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem; /* gap-4 */
+}
+
+@media (min-width: 768px) {
+  .stats-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* md:grid-cols-3 */
+  }
+}
+
+.stat-card-content-center {
+  padding: 1rem; /* p-4 */
+  text-align: center;
+}
+
+.stat-value-blue {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #2563eb; /* text-blue-600 */
+}
+
+.stat-value-green {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #22c55e; /* text-green-600 */
+}
+
+.stat-value-yellow {
+  font-size: 1.5rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: #d97706; /* text-yellow-600 */
+}
+
+.stat-label {
+  font-size: 0.875rem; /* text-sm */
+  color: #4b5563; /* text-gray-600 */
+}
+
+.search-filter-card-content {
+  padding: 1rem; /* p-4 */
+}
+
+.search-filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* space-y-3 */
+}
+
+@media (min-width: 768px) {
+  .search-filter-wrapper {
+    flex-direction: row; /* md:flex-row */
+    align-items: center; /* md:items-center */
+    justify-content: space-between; /* md:justify-between */
+    gap: 0; /* md:space-y-0 */
+  }
+}
+
+.search-input-group {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem; /* left-3 */
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af; /* text-gray-400 */
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+}
+
+.search-input {
+  padding-left: 2.5rem; /* pl-10 */
+}
+
+.search-results-info {
+  font-size: 0.875rem; /* text-sm */
+  color: #4b5563; /* text-gray-600 */
+}
+
+.class-table-card-content {
+  /* No specific styles here as Card component handles padding */
+}
+
+/* Table specific styles for columns */
+.class-name-column {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+}
+
+.class-icon-wrapper {
+  height: 2rem; /* h-8 */
+  width: 2rem; /* w-8 */
+  border-radius: 9999px; /* rounded-full */
+  background-color: #dbeafe; /* bg-blue-100 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.class-icon {
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+  color: #2563eb; /* text-blue-600 */
+}
+
+.class-details-name {
+  font-weight: 500; /* font-medium */
+  color: #1f2937; /* text-gray-900 */
+}
+
+.class-details-id {
+  font-size: 0.875rem; /* text-sm */
+  color: #6b7280; /* text-gray-500 */
+}
+
+.teacher-column {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space-x-2 */
+}
+
+.teacher-icon {
+  height: 1rem; /* h-4 */
+  width: 1rem; /* w-4 */
+  color: #9ca3af; /* text-gray-400 */
+}
+
+.teacher-name {
+  font-size: 0.875rem; /* text-sm */
+  color: #1f2937; /* text-gray-900 */
+}
+
+.actions-column {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space-x-2 */
+}
+
+.action-button-danger {
+  color: #dc2626; /* text-red-600 */
+}
+
+.action-button-danger:hover {
+  color: #b91c1c; /* hover:text-red-700 */
+}
